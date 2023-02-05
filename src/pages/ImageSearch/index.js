@@ -17,169 +17,107 @@ import {
 
 
 const ImageSearch = () => {
-    const[search, setSearch] = useState({});
-    const fetchImageSearch = async () => {
-        const response = await getDataFromPokemon(
-          "https://pixabay.com/api/?key=23400745-88c9fb4b47626b42faf23986e&q=7D&per_page=50"
-        );
-        setSearch(response.hits);
+    const [ all, setAll ] = useState([]);
+
+    const fetchImage = async() => {
+        const response = await getDataFromPokemon(`https://pixabay.com/api/?key=23400745-88c9fb4b47626b42faf23986e&q=all&per_page=50`);
+        setAll(response.hits);
+    }
+
+    const handleInput = (e) => {
+        const image = e.target.value;
+
+        if (image.length === 0) {
+            fetchImage();
+        }
+
+        if(image.length > 3){
+            handleSearchPixelbay(e.target.value);
+        }
+    }
+
+    const handleSearchPixelbay = async(valor) => {
+        const response = await getDataFromPokemon(`https://pixabay.com/api/?key=23400745-88c9fb4b47626b42faf23986e&q=${valor}&per_page=50`);
+        setAll(response.hits);
         console.log(response.hits);
-      };
+    }
 
-    const handleSearchImage = async (event)=>{
-        const imageName = event.target.value
+    useEffect( () => {
+        fetchImage()
+    }, [] )
 
-        if (imageName.lenght === 0){
-            fetchImageSearch();
-        }
-    
-        if(imageName.length > 3){
-            handleSearchPixelBay(event.target.value);
-        }
-     };
-
-     const handleSearchPixelBay = async(val) => {
-        const response = await getDataFromPokemon(`https://pixabay.com/api/?key=23400745-88c9fb4b47626b42faf23986e&q=${val}&per_page=50`);
-        setSearch(response.hits);
-        console.log(response.hits.type);
-     }
-
-      useEffect(() => {
-        fetchImageSearch();
-      }, []);
-    
-      return(
-        <Container>
-            <Grid container spacing={3} mt={5}>
-                <Grid item md={6} className="input-country">
-                    <TextField 
-                    onChange={handleSearchImage}
-                    label="Search for a Image" fullWidth />
-                </Grid>
-            </Grid>
-            <div>
-            {search.length > 0 ? (
-                    search.map((newsearch, i)=>(
-                            i+1 <=10 ? (
-                            <Grid item md ={3} xs={12}>
-                                <Card>
-                                    <CardMedia
-                                    component ="img"
-                                    height = {200}
-                                    width = {200}
-                                    image={newsearch.webformatURL} />                    
-                               </Card>
-                            </Grid>
+    return (
+        <div className="imagenes mt-5">
+            <input type="text" className="form-control input-search mb-5" onChange={handleInput} placeholder="Search for image on Pixelbay" />
+            <div className="contenedor">
+                <div className="presentacion">
+                    {
+                        all.length > 0 && all.map( (a, i) => (
+                            i+1 <= 10 ? (
+                                <div className="column-image mr-img mb-img">
+                                    <img src={a.webformatURL} alt="" className="image" /> 
+                                </div>
                             ) : (
                                 ""
-                            )  
+                            )
                         ))
-                ):(
-                    <div>
-                        <CircularProgress/>
-                        <h4>Cargando...</h4>
-                    </div>
-                )}
-            </div>
-            <div>
-            {search.length > 0 ? (
-                    search.map((newsearch, i)=>(
-                            i+1 > 10 && i+1<=20 ? (
-                            <Grid item md ={3} xs={12}>
-                                <Card>
-                                    <CardMedia
-                                    component ="img"
-                                    height = {427}
-                                    width = {640}
-                                    image={newsearch.webformatURL} />                    
-                               </Card>
-                            </Grid>
+                    }
+                </div>
+                <div className="presentacion">
+                    {
+                        all.length > 0 && all.map( (a, i) => (
+                            i+1 > 10 && i+1 <= 20  ? (
+                                <div className="column-image mr-img mb-img">
+                                    <img src={a.webformatURL} alt="" className="image" />   
+                                </div>
                             ) : (
                                 ""
-                            )  
+                            )
                         ))
-                ):(
-                    <div>
-                        <CircularProgress/>
-                        <h4>Cargando...</h4>
-                    </div>
-                )}
-            </div>
-            <div>
-            {search.length > 0 ? (
-                    search.map((newsearch, i)=>(
-                            i+1 > 20 && i+1<=30 ? (
-                            <Grid item md ={3} xs={12}>
-                                <Card>
-                                    <CardMedia
-                                    component ="img"
-                                    height = {427}
-                                    width = {640}
-                                    image={newsearch.webformatURL} />                    
-                               </Card>
-                            </Grid>
+                    }
+                </div>
+                <div className="presentacion">
+                    {
+                        all.length > 0 && all.map( (a, i) => (
+                            i+1 > 20 && i+1 <= 30 ? (
+                                <div className="column-image mr-img mb-img">
+                                    <img src={a.webformatURL} alt="" className="image" />   
+                                </div>
                             ) : (
                                 ""
-                            )  
+                            )
                         ))
-                ):(
-                    <div>
-                        <CircularProgress/>
-                        <h4>Cargando...</h4>
-                    </div>
-                )}
-            </div>
-            <div>
-            {search.length > 0 ? (
-                    search.map((newsearch, i)=>(
-                            i+1 > 30 && i+1<=40 ? (
-                            <Grid item md ={3} xs={12}>
-                                <Card>
-                                    <CardMedia
-                                    component ="img"
-                                    height = {427}
-                                    width = {640}
-                                    image={newsearch.webformatURL} />                    
-                               </Card>
-                            </Grid>
+                    }
+                </div>
+                <div className="presentacion">
+                    {
+                        all.length > 0 && all.map( (a, i) => (
+                            i+1 > 30 && i+1 <= 40 ? (
+                                <div className="column-image mr-img mb-img">
+                                    <img src={a.webformatURL} alt="" className="image" />   
+                                </div>
                             ) : (
                                 ""
-                            )  
+                            )
                         ))
-                ):(
-                    <div>
-                        <CircularProgress/>
-                        <h4>Cargando...</h4>
-                    </div>
-                )}
-            </div>
-            <div>
-            {search.length > 0 ? (
-                    search.map((newsearch, i)=>(
-                            i+1 > 40 && i+1<=50 ? (
-                            <Grid item md ={3} xs={12}>
-                                <Card>
-                                    <CardMedia
-                                    component ="img"
-                                    height = {427}
-                                    width = {640}
-                                    image={newsearch.webformatURL} />                    
-                               </Card>
-                            </Grid>
+                    }
+                </div>
+                <div className="presentacion">
+                    {
+                        all.length > 0 && all.map( (a, i) => (
+                            i+1 > 40 && i+1 <= 50 ? (
+                                <div className="column-image mb-img">
+                                    <img src={a.webformatURL} alt="" className="image" />   
+                                </div>
                             ) : (
                                 ""
-                            )  
+                            )
                         ))
-                ):(
-                    <div>
-                        <CircularProgress/>
-                        <h4>Cargando...</h4>
-                    </div>
-                )}
+                    }
+                </div>
             </div>
-        </Container>
-      )
-    
+        </div>
+    )
 };
 
 export default ImageSearch;
